@@ -14,48 +14,46 @@
     "commands": [
       {
         "command": "workchill.selectBookFolder",
-        "title": "Select Book Folder"
-      },
-      {
-        "command": "workchill.showBook",
-        "title": "Show Book Content"
+        "title": "workchill select book folder"
       },
       {
         "command": "workchill.nextLine",
-        "title": "Next Line"
+        "title": "workchill next line"
       },
       {
         "command": "workchill.previousLine",
-        "title": "Previous Line"
+        "title": "workchill previous line"
       },
       {
-        "command": "workchill.clearContent",
-        "title": "Clear Content"
+        "command": "workchill.showSettings",
+        "title": "workchill show settings"
+      },
+      {
+        "command": "workchill.startReading",
+        "title": "workchill start reading"
+      },
+      {
+        "command": "workchill.stopReading",
+        "title": "workchill stop reading"
       }
     ],
     "keybindings": [
       {
-        "command": "workchill.showBook",
-        "key": "cmd+shift+r",
-        "mac": "cmd+shift+r",
-        "when": "editorTextFocus"
-      },
-      {
-        "command": "workchill.clearContent",
-        "key": "escape",
-        "mac": "escape",
+        "command": "workchill.stopReading",
+        "key": "end",
+        "mac": "end",
         "when": "editorTextFocus"
       },
       {
         "command": "workchill.nextLine",
-        "key": "down",
-        "mac": "down",
+        "key": "pagedown",
+        "mac": "pagedown",
         "when": "editorTextFocus"
       },
       {
         "command": "workchill.previousLine",
-        "key": "up",
-        "mac": "up",
+        "key": "pageup",
+        "mac": "pageup",
         "when": "editorTextFocus"
       }
     ],

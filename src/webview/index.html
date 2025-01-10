@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workchill Settings</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    .file-list {
+      border: 1px solid #ddd;
+      padding: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+    .file-item {
+      padding: 5px;
+      cursor: pointer;
+    }
+    .file-item:hover {
+      background-color: #f5f5f5;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0062a3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-group">
+      <label for="directory">书籍目录</label>
+      <button id="select-directory">选择目录</button>
+      <div id="file-list" class="file-list"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="lines-per-page">每次读取的行数</label>
+      <input type="number" id="lines-per-page" min="1" value="1">
+    </div>
+
+    <button id="save-settings">保存设置</button>
+  </div>
+
+  <script>
+    const vscode = acquireVsCodeApi();
+
+    // 处理目录选择
+    document.getElementById('select-directory').addEventListener('click', () => {
+      vscode.postMessage({ command: 'selectDirectory' });
+    });
+
+    // 处理保存设置
+    document.getElementById('save-settings').addEventListener('click', () => {
+      const linesPerPage = document.getElementById('lines-per-page').value;
+      vscode.postMessage({ 
+        command: 'saveSettings',
+        linesPerPage: parseInt(linesPerPage)
+      });
+    });
+
+    // 处理文件点击
+    document.getElementById('file-list').addEventListener('click', (e) => {
+      if (e.target.classList.contains('file-item')) {
+        vscode.postMessage({
+          command: 'selectFile',
+          file: e.target.dataset.path
+        });
+      }
+    });
+
+    // 处理来自扩展的消息
+    window.addEventListener('message', event => {
+      const message = event.data;
+      switch (message.command) {
+        case 'updateFileList':
+          updateFileList(message.files);
+          break;
+        case 'updateSettings':
+          updateSettings(message.settings);
+          break;
+      }
+    });
+
+    function updateFileList(files) {
+      const fileList = document.getElementById('file-list');
+      fileList.innerHTML = files.map(file => `
+        <div class="file-item" data-path="${file.path}">
+          ${file.name}
+        </div>
+      `).join('');
+    }
+
+    function updateSettings(settings) {
+      document.getElementById('lines-per-page').value = settings.linesPerPage || 1;
+    }
+  </script>
+</body>
+</html>
