@@ -9,10 +9,6 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:javascript",
-    "onLanguage:typescript"
-  ],
   "main": "./extension.js",
   "contributes": {
     "commands": [
@@ -31,6 +27,10 @@
       {
         "command": "workchill.previousLine",
         "title": "Previous Line"
+      },
+      {
+        "command": "workchill.clearContent",
+        "title": "Clear Content"
       }
     ],
     "keybindings": [
@@ -38,6 +38,12 @@
         "command": "workchill.showBook",
         "key": "cmd+shift+r",
         "mac": "cmd+shift+r",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "workchill.clearContent",
+        "key": "escape",
+        "mac": "escape",
         "when": "editorTextFocus"
       },
       {
@@ -51,14 +57,23 @@
         "key": "up",
         "mac": "up",
         "when": "editorTextFocus"
-      },
-      {
-        "command": "workchill.clearContent",
-        "key": "escape",
-        "mac": "escape",
-        "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Workchill",
+      "properties": {
+        "workchill.bookFolder": {
+          "type": "string",
+          "default": "",
+          "description": "书籍文件根目录"
+        },
+        "workchill.linesPerPage": {
+          "type": "number",
+          "default": 1,
+          "description": "每次可读几行"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint . --config eslint.config.js",
@@ -76,11 +91,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0",
-    "epub-parser": "^0.2.5",
     "epub2": "^3.0.2",
-    "epubjs": "^0.3.93",
-    "jsdom": "^25.0.1",
-    "node-fetch": "^3.3.2",
-    "xmlhttprequest": "^1.8.0"
+    "epubjs": "^0.3.93"
   }
 }

@@ -5,13 +5,80 @@ const cheerio = require("cheerio");
 
 const EPub = require("epub2").EPub;
 
-let bookFolderPath = "";
-let currentBookLines = "";
-let currentLineIndex = 0;
+const config = vscode.workspace.getConfiguration("workchill");
+
+let bookFolderPath = ""; // 书籍文件根目录
+let currentBookLines = ""; // 当前阅读书籍的内容
+let currentLineIndex = 0; // 阅读第几行
 let currentEpub = {};
 let bookType = "txt";
+let linesPerPage = config.get("linesPerPage") || 1;
 
 function activate(context) {
+  bookFolderPath = config.get("bookFolder") || context.extensionPath;
+  config.update("bookFolder", bookFolderPath, true);
+  const shortcutsDisposable = registerShortcuts();
+  context.subscriptions.push(...shortcutsDisposable);
+}
+
+// 读取txt文件
+function readTxt(bookPath) {
+  bookType = "txt";
+  const content = fs.readFileSync(bookPath, "utf-8");
+  currentBookLines = content.split("\n").filter((x) => x !== "");
+  currentLineIndex = 0;
+  showCurrentLine();
+}
+// 注册快捷键
+function registerShortcuts() {
+  // 下一页快捷键
+  let nextLineDisposable = vscode.commands.registerCommand(
+    "workchill.nextLine",
+    () => {
+      // 确保不会超出总行数
+      if (currentLineIndex + linesPerPage < currentBookLines.length) {
+        currentLineIndex += linesPerPage;
+        showCurrentLine();
+      } else {
+        // 如果已经到达最后一页，停在最后
+        currentLineIndex = Math.max(0, currentBookLines.length - linesPerPage);
+        showCurrentLine();
+      }
+    }
+  );
+
+  // 上一页快捷键
+  let previousLineDisposable = vscode.commands.registerCommand(
+    "workchill.previousLine",
+    () => {
+      // 向上翻页，确保不会小于0
+      if (currentLineIndex >= linesPerPage) {
+        currentLineIndex -= linesPerPage;
+      } else {
+        // 如果已经在开头，保持为0
+        currentLineIndex = 0;
+      }
+      showCurrentLine();
+    }
+  );
+
+  // 注册隐藏插件快捷键
+  let clearContentDisposable = vscode.commands.registerCommand(
+    "workchill.clearContent",
+    () => {
+      const editor = vscode.window.activeTextEditor;
+      if (editor && currentDecorationType) {
+        editor.setDecorations(currentDecorationType, []);
+        currentDecorationType.dispose();
+        currentDecorationType = undefined;
+
+        // 清除方向键导航
+        nextLineDisposable.dispose();
+        previousLineDisposable.dispose();
+      }
+    }
+  );
+
   // 注册选择书籍目录命令
   let selectFolderDisposable = vscode.commands.registerCommand(
     "workchill.selectBookFolder",
@@ -24,6 +91,7 @@ function activate(context) {
 
       if (folderUri && folderUri[0]) {
         bookFolderPath = folderUri[0].fsPath;
+        config.update("bookFolder", bookFolderPath, true);
         vscode.window.showInformationMessage(
           `书籍目录已设置为：${bookFolderPath}`
         );
@@ -71,15 +139,6 @@ function activate(context) {
           });
 
           epub.on("end", async function (err) {
-            console.log("METADATA:\n");
-            console.log(epub.metadata);
-
-            console.log("\nSPINE:\n");
-            console.log(epub.flow);
-
-            console.log("\nTOC:\n");
-            console.log(epub.toc);
-
             const res = await saveEpub2Txt(selectedBook);
             readTxt(res.bookPath);
           });
@@ -95,63 +154,48 @@ function activate(context) {
     }
   );
 
-  function readTxt(bookPath) {
-    bookType = "txt";
-    const content = fs.readFileSync(bookPath, "utf-8");
-    currentBookLines = content.split("\n").filter((x) => x !== "");
-    currentLineIndex = 0;
-    showCurrentLine();
-  }
-
-  // 注册方向键导航
-  let nextLineDisposable = vscode.commands.registerCommand(
-    "workchill.nextLine",
-    () => {
-      if (currentLineIndex < currentBookLines.length - 1) {
-        currentLineIndex++;
-        showCurrentLine();
+  // 监听配置变更
+  let configChangeDisposable = vscode.workspace.onDidChangeConfiguration(
+    (event) => {
+      if (event.affectsConfiguration("workchill")) {
+        const newConfig = vscode.workspace.getConfiguration("workchill");
+        linesPerPage = newConfig.get("linesPerPage", 1);
+        bookFolderPath = newConfig.get("bookFolder", context.extensionPath);
+        console.log(linesPerPage);
+        console.log("变更了");
       }
     }
   );
 
-  let previousLineDisposable = vscode.commands.registerCommand(
-    "workchill.previousLine",
-    () => {
-      if (currentLineIndex > 0) {
-        currentLineIndex--;
-        showCurrentLine();
-      }
-    }
-  );
-
-  let clearContentDisposable = vscode.commands.registerCommand(
-    "workchill.clearContent",
-    () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && currentDecorationType) {
-        editor.setDecorations(currentDecorationType, []);
-        currentDecorationType.dispose();
-        currentDecorationType = undefined;
-
-        // 清除方向键导航
-        nextLineDisposable.dispose();
-        previousLineDisposable.dispose();
-      }
-    }
-  );
-
-  context.subscriptions.push(
+  return [
     nextLineDisposable,
     previousLineDisposable,
-    clearContentDisposable
-  );
-
-  context.subscriptions.push(selectFolderDisposable, showBookDisposable);
+    clearContentDisposable,
+    showBookDisposable,
+    selectFolderDisposable,
+    configChangeDisposable,
+  ];
 }
 
 let currentDecorationType;
 
+// 显示当前行到编辑器
 function showCurrentLine() {
+  // 创建或获取输出通道
+  // if (!this.outputChannel) {
+  //   this.outputChannel = vscode.window.createOutputChannel("Book Content");
+  // }
+  // // 获取要显示的多行内容
+  // const linesToShow = currentBookLines
+  //   .slice(currentLineIndex, currentLineIndex + linesPerPage)
+  //   .join("\n");
+
+  // // 清除之前的内容并显示新内容
+  // this.outputChannel.clear();
+  // this.outputChannel.appendLine(linesToShow);
+  // this.outputChannel.show(true);
+  // return;
+
   const editor = vscode.window.activeTextEditor;
   if (editor) {
     // 清除之前的装饰
@@ -160,22 +204,34 @@ function showCurrentLine() {
       currentDecorationType.dispose();
     }
 
-    // 创建新的装饰器样式
-    currentDecorationType = vscode.window.createTextEditorDecorationType({
-      after: {
-        contentText: currentBookLines[currentLineIndex],
-        color: "#999999",
-        margin: "0 0 0 1em",
+    // 获取要显示的多行内容
+    const linesToShow = currentBookLines.slice(
+      currentLineIndex,
+      currentLineIndex + linesPerPage
+    );
+
+    // 创建装饰选项数组
+    const decorationOptions = linesToShow.map((line, index) => ({
+      range: new vscode.Range(
+        new vscode.Position(editor.selection.active.line + index, 0),
+        new vscode.Position(editor.selection.active.line + index, 0)
+      ),
+      renderOptions: {
+        after: {
+          contentText: line,
+          color: "#999999",
+          margin: "0 0 0 1em",
+        },
       },
+    }));
+
+    // 创建装饰类型
+    
+    currentDecorationType = vscode.window.createTextEditorDecorationType({
+      // isWholeLine: true,
     });
 
-    // 在光标位置显示当前行内容
-    const position = editor.selection.active;
-    const decoration = {
-      range: new vscode.Range(position, position),
-      hoverMessage: "书籍内容",
-    };
-    editor.setDecorations(currentDecorationType, [decoration]);
+    editor.setDecorations(currentDecorationType, decorationOptions);
   }
 }
 // 将epub书籍保存为 同名的 txt
