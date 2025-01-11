@@ -2,7 +2,7 @@
   "name": "workchill-reader",
   "displayName": "workchill-reader",
   "description": "一个用来上班摸鱼的vscode阅读插件，支持txt,epub本地小说阅读，可以自动保存阅读进度，支持切换上下页.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "luxiaofeng",
   "license": "MIT",
   "engines": {

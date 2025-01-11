@@ -72,8 +72,13 @@
 
 ## 问题反馈
 
+如果你在使用过程中遇到任何问题，或者有功能建议，欢迎在 GitHub 仓库提交 Issue：
+[https://github.com/tong822218/workchill-reader-vscode-extensions](https://github.com/tong822218/workchill-reader-vscode-extensions)
+
 weixin: tong822527
 email: 327637616@qq.com
+
+
 
 ## License
 
