@@ -105,5 +105,11 @@
     "cheerio": "^1.0.0",
     "epub2": "^3.0.2",
     "epubjs": "^0.3.93"
-  }
+  },
+  "files": [
+    "src/**/*",
+    "images/**/*",
+    "README.md",
+    "LICENSE"
+  ]
 }

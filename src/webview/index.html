@@ -261,7 +261,8 @@
     }
 
     .color-picker {
-      width: 100px;
+      width: 100%;
+      max-width: 120px;
       height: 40px;
       padding: 2px;
       border: 1px solid var(--border-color);
@@ -276,6 +277,52 @@
     .color-picker::-webkit-color-swatch {
       border: none;
       border-radius: 2px;
+    }
+
+    /* 添加网格布局样式 */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    /* 调整表单组样式 */
+    .settings-grid .form-group {
+      margin-bottom: 0;
+    }
+
+    /* 响应式布局 */
+    @media (max-width: 600px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
+    /* 调整输入框样式 */
+    input[type="number"],
+    input[type="color"] {
+      width: 100%;
+      max-width: 120px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* 调整颜色选择器样式 */
+    .color-picker {
+      width: 100%;
+      max-width: 120px;
+      height: 40px;
+      padding: 2px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--bg-primary);
     }
   </style>
 </head>
@@ -298,17 +345,19 @@
 
     <div class="section">
       <div class="section-title">阅读设置</div>
-      <div class="form-group">
-        <label for="lines-per-page">每次读取的行数</label>
-        <input type="number" id="lines-per-page" min="1" value="1">
-      </div>
-      <div class="form-group">
-        <label for="font-size">字体大小 (px)</label>
-        <input type="number" id="font-size" min="8" max="72" step="1" class="input">
-      </div>
-      <div class="form-group">
-        <label for="font-color">字体颜色</label>
-        <input type="color" id="font-color" class="input color-picker">
+      <div class="settings-grid">
+        <div class="form-group">
+          <label for="lines-per-page">每次读取的行数</label>
+          <input type="number" id="lines-per-page" min="1" value="1">
+        </div>
+        <div class="form-group">
+          <label for="font-size">字体大小 (px)</label>
+          <input type="number" id="font-size" min="8" max="72" step="1" class="input">
+        </div>
+        <div class="form-group">
+          <label for="font-color">字体颜色</label>
+          <input type="color" id="font-color" class="input color-picker">
+        </div>
       </div>
       <button id="save-settings" class="btn-primary">保存设置</button>
     </div>
