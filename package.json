@@ -73,6 +73,16 @@
           "type": "number",
           "default": 1,
           "description": "每次可读几行"
+        },
+        "workchill.fontSize": {
+          "type": "number",
+          "default": 14,
+          "description": "阅读文字大小(px)"
+        },
+        "workchill.fontColor": {
+          "type": "string",
+          "default": "#A8A8A8",
+          "description": "阅读文字颜色"
         }
       }
     }

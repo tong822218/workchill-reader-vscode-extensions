@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { getExtensionContext } = require('../utils/extensionState');
 const { handleWebviewMessage, updateFileList } = require('../webview/handler');
-const { getBookFolderPath, updateConfig } = require('../config');
+const { getBookFolderPath, getConfig } = require('../config');
 
 function registerSettingsCommands() {
   const commands = [];
@@ -56,11 +56,16 @@ function registerSettingsCommands() {
         context.subscriptions
       );
 
+      // 获取当前配置
+      const config = getConfig();
+
       // 初始化时发送当前设置
       panel.webview.postMessage({
         command: 'updateSettings',
         settings: {
-          linesPerPage: vscode.workspace.getConfiguration('workchill').get('linesPerPage'),
+          linesPerPage: config.get('linesPerPage') || 1,
+          fontSize: config.get('fontSize') || 14,
+          fontColor: config.get('fontColor') || '#A8A8A8',
           bookFolderPath: getBookFolderPath()
         },
       });

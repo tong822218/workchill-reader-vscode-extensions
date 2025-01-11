@@ -1,6 +1,6 @@
 const fs = require('fs');
 const vscode = require('vscode');
-const { getLinesPerPage, addConfigChangeListener } = require('../config');
+const { getLinesPerPage, getFontSize, getFontColor, addConfigChangeListener } = require('../config');
 const { saveReadingProgress } = require('./progress');
 
 /**
@@ -20,7 +20,7 @@ class BookReader {
 
     // 监听配置变更，实时更新显示
     addConfigChangeListener((key, value) => {
-      if (key === 'linesPerPage' && this.isReading()) {
+      if ((key === 'linesPerPage' || key === 'fontSize' || key === 'fontColor') && this.isReading()) {
         this.showCurrentLine();
       }
     });
@@ -72,7 +72,6 @@ class BookReader {
       const currentLineIndex = this.currentLineIndex + i;
       if (currentLineIndex >= this.currentBookLines.length) break;
 
-      // 为每一行创建一个装饰器
       const lineText = this.currentBookLines[currentLineIndex];
       const position = new vscode.Position(startPosition.line + i, 0);
       decorations.push({
@@ -80,7 +79,10 @@ class BookReader {
         renderOptions: {
           after: {
             contentText: lineText,
-            color: new vscode.ThemeColor('editor.foreground'),
+            fontStyle: `normal`,
+            fontWeight: 'normal',
+            fontSize: `${getFontSize()}px`,
+            color: getFontColor(),
             margin: '0 0 0 2em',
           }
         }

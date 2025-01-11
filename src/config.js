@@ -4,6 +4,8 @@ const vscode = require('vscode');
 let config;
 let bookFolderPath;
 let linesPerPage;
+let fontSize;
+let fontColor;
 let configChangeListeners = [];
 
 /**
@@ -14,6 +16,8 @@ function initializeConfig(context) {
   config = vscode.workspace.getConfiguration('workchill');
   bookFolderPath = config.get('bookFolder') || context.extensionPath;
   linesPerPage = config.get('linesPerPage') || 1;
+  fontSize = config.get('fontSize') || 14;
+  fontColor = config.get('fontColor') || '#A8A8A8';
   
   // 监听配置变更
   context.subscriptions.push(
@@ -36,6 +40,16 @@ function handleConfigChange(event) {
     if (event.affectsConfiguration('workchill.linesPerPage')) {
       linesPerPage = config.get('linesPerPage');
       notifyConfigChange('linesPerPage', linesPerPage);
+    }
+
+    if (event.affectsConfiguration('workchill.fontSize')) {
+      fontSize = config.get('fontSize');
+      notifyConfigChange('fontSize', fontSize);
+    }
+
+    if (event.affectsConfiguration('workchill.fontColor')) {
+      fontColor = config.get('fontColor');
+      notifyConfigChange('fontColor', fontColor);
     }
   }
 }
@@ -74,6 +88,8 @@ module.exports = {
   getConfig: () => config,
   getBookFolderPath: () => bookFolderPath,
   getLinesPerPage: () => linesPerPage,
+  getFontSize: () => fontSize,
+  getFontColor: () => fontColor,
   updateConfig,
   addConfigChangeListener
 }; 

@@ -66,6 +66,8 @@ function updateFileList(panel) {
 async function handleSaveSettings(message) {
   try {
     await updateConfig('linesPerPage', parseInt(message.linesPerPage));
+    await updateConfig('fontSize', parseInt(message.fontSize));
+    await updateConfig('fontColor', message.fontColor);
     vscode.window.showInformationMessage('设置已保存并生效');
   } catch (error) {
     vscode.window.showErrorMessage('保存设置失败: ' + error.message);

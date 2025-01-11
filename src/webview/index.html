@@ -259,6 +259,24 @@
       color: var(--text-secondary);
       font-size: 14px;
     }
+
+    .color-picker {
+      width: 100px;
+      height: 40px;
+      padding: 2px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background: var(--bg-primary);
+    }
+
+    .color-picker::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-picker::-webkit-color-swatch {
+      border: none;
+      border-radius: 2px;
+    }
   </style>
 </head>
 <body>
@@ -283,6 +301,14 @@
       <div class="form-group">
         <label for="lines-per-page">每次读取的行数</label>
         <input type="number" id="lines-per-page" min="1" value="1">
+      </div>
+      <div class="form-group">
+        <label for="font-size">字体大小 (px)</label>
+        <input type="number" id="font-size" min="8" max="72" step="1" class="input">
+      </div>
+      <div class="form-group">
+        <label for="font-color">字体颜色</label>
+        <input type="color" id="font-color" class="input color-picker">
       </div>
       <button id="save-settings" class="btn-primary">保存设置</button>
     </div>
@@ -354,6 +380,8 @@
     // 更新设置
     function updateSettings(settings) {
       document.getElementById('lines-per-page').value = settings.linesPerPage || 1;
+      document.getElementById('font-size').value = settings.fontSize || 14;
+      document.getElementById('font-color').value = settings.fontColor || '#A8A8A8';
     }
 
     // 处理目录选择
@@ -364,9 +392,14 @@
     // 处理保存设置
     document.getElementById('save-settings').addEventListener('click', () => {
       const linesPerPage = document.getElementById('lines-per-page').value;
+      const fontSize = document.getElementById('font-size').value;
+      const fontColor = document.getElementById('font-color').value;
+      
       vscode.postMessage({ 
         command: 'saveSettings',
-        linesPerPage: parseInt(linesPerPage)
+        linesPerPage: parseInt(linesPerPage),
+        fontSize: parseInt(fontSize),
+        fontColor: fontColor
       });
     });
 
