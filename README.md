@@ -1,20 +1,43 @@
-# workchill-vscode-extensions README
+# Workchill Reader - VSCode Extension
 
-This is the README for your extension "workchill-vscode-extensions". After writing up a brief description, we recommend including the following sections.
+一个用来上班摸鱼的vscode插件，支持txt,epub本地小说阅读，可以自动保存阅读进度，支持切换上下页。
 
-## Features
+## 功能特性
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- 支持txt和epub格式的本地小说阅读
+- 自动保存阅读进度
+- 支持上下翻页
+- 可自定义书籍目录
+- 可配置每页显示行数
 
-For example if there is an image subfolder under your extension project workspace:
+## 命令说明
 
-\!\[feature X\]\(images/feature-x.png\)
+| 命令 | 描述 | 快捷键 |
+|------|------|--------|
+| workchill select book folder | 选择书籍目录 | 无 |
+| workchill next line | 下一页 | Page Down |
+| workchill previous line | 上一页 | Page Up |
+| workchill show settings | 显示设置 | 无 |
+| workchill start reading | 开始阅读 | 无 |
+| workchill stop reading | 停止阅读 | End |
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## 配置项
+
+| 配置项 | 类型 | 默认值 | 描述 |
+|--------|------|--------|------|
+| workchill.bookFolder | string | "" | 书籍文件根目录 |
+| workchill.linesPerPage | number | 1 | 每次可读几行 |
+
+## 使用说明
+
+1. 使用命令 `workchill select book folder` 选择包含txt/epub书籍的目录
+2. 使用命令 `workchill start reading` 开始阅读
+3. 使用 Page Up/Page Down 键进行翻页
+4. 使用 End 键停止阅读
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+
 
 ## Extension Settings
 
@@ -39,27 +62,7 @@ Users appreciate release notes as you update your extension.
 
 Initial release of ...
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
 ## For more information
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**

@@ -5,71 +5,356 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workchill Settings</title>
   <style>
+    :root {
+      /* 亮色主题变量 */
+      --primary-color: #2979ff;
+      --hover-color: #2962ff;
+      --border-color: #e0e0e0;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --bg-hover: #f5f7fa;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f5f5;
+      --shadow-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* 暗色主题变量 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary-color: #4f9eff;
+        --hover-color: #5ea3ff;
+        --border-color: #3d3d3d;
+        --text-primary: #e0e0e0;
+        --text-secondary: #a0a0a0;
+        --bg-hover: #2d2d2d;
+        --bg-primary: #1e1e1e;
+        --bg-secondary: #2a2a2a;
+        --shadow-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      padding: 24px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin: 0;
+      background: var(--bg-primary);
     }
+
     .container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 0 auto;
+      background: var(--bg-primary);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+      padding: 24px;
     }
+
+    .section {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
+
     label {
       display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-primary);
     }
+
     input[type="number"] {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
+      width: 120px;
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.2s;
+      background: var(--bg-primary);
+      color: var(--text-primary);
     }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(79, 158, 255, 0.1);
+    }
+
     .file-list {
-      border: 1px solid #ddd;
-      padding: 10px;
-      max-height: 200px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      max-height: 400px;
       overflow-y: auto;
-      margin-top: 10px;
+      background: var(--bg-primary);
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--text-secondary) transparent; /* Firefox */
     }
+
+    /* Webkit (Chrome, Safari, Edge) 滚动条样式 */
+    .file-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .file-list::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 3px;
+    }
+
+    .file-list::-webkit-scrollbar-thumb {
+      background-color: var(--text-secondary);
+      border-radius: 3px;
+      opacity: 0.5;
+    }
+
+    .file-list::-webkit-scrollbar-thumb:hover {
+      background-color: var(--text-primary);
+    }
+
+    /* 当不滚动时隐藏滚动条 */
+    .file-list::-webkit-scrollbar-thumb:vertical {
+      min-height: 30px;
+    }
+
     .file-item {
-      padding: 5px;
-      cursor: pointer;
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s;
     }
+
+    .file-item:last-child {
+      border-bottom: none;
+    }
+
     .file-item:hover {
-      background-color: #f5f5f5;
+      background-color: var(--bg-hover);
     }
+
+    .file-info {
+      flex: 1;
+    }
+
+    .file-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .file-progress {
+      color: var(--text-secondary);
+      font-size: 13px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--border-color);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary-color);
+      transition: width 0.3s ease;
+    }
+
     button {
       padding: 8px 16px;
-      background-color: #007acc;
-      color: white;
+      border-radius: 6px;
       border: none;
+      font-size: 14px;
+      font-weight: 500;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    button:hover {
-      background-color: #0062a3;
+
+    .btn-primary {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--hover-color);
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-hover);
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .file-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    /* 添加响应式设计 */
+    @media (max-width: 600px) {
+      .container {
+        padding: 16px;
+      }
+      
+      .section {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+      }
+    }
+
+    .folder-path {
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--text-secondary);
+      padding: 8px 12px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      word-break: break-all;
+      margin-top: 8px;
+    }
+
+    /* 添加提示框样式 */
+    .info-box {
+      background: var(--bg-secondary);
+      border-left: 4px solid var(--primary-color);
+      padding: 12px 16px;
+      margin: 16px 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* 添加空列表样式 */
+    .empty-list {
+      padding: 32px 16px;
+      text-align: center;
+    }
+
+    .empty-message {
+      color: var(--text-secondary);
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="form-group">
-      <label for="directory">书籍目录</label>
-      <button id="select-directory">选择目录</button>
-      <div id="file-list" class="file-list"></div>
+    <div class="section">
+      <div class="section-title">书籍管理</div>
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <label>书籍目录</label>
+          <button id="select-directory" class="btn-primary">选择目录</button>
+        </div>
+        <div id="folder-path" class="folder-path">未设置书籍目录</div>
+        <div class="info-box">
+          提示：开始阅读epub文件后，会在同目录下自动生成一个txt的同名文件，实际阅读的是txt文件。
+        </div>
+        <div id="file-list" class="file-list"></div>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="lines-per-page">每次读取的行数</label>
-      <input type="number" id="lines-per-page" min="1" value="1">
+    <div class="section">
+      <div class="section-title">阅读设置</div>
+      <div class="form-group">
+        <label for="lines-per-page">每次读取的行数</label>
+        <input type="number" id="lines-per-page" min="1" value="1">
+      </div>
+      <button id="save-settings" class="btn-primary">保存设置</button>
     </div>
-
-    <button id="save-settings">保存设置</button>
   </div>
 
   <script>
     const vscode = acquireVsCodeApi();
+
+    // 处理来自扩展的消息
+    window.addEventListener('message', event => {
+      const message = event.data;
+      switch (message.command) {
+        case 'updateFileList':
+          updateFileList(message);
+          break;
+        case 'updateSettings':
+          updateSettings(message.settings);
+          break;
+      }
+    });
+
+    // 更新文件列表
+    function updateFileList(message) {
+      // 更新目录路径显示
+      document.getElementById('folder-path').textContent = message.currentFolder;
+
+      // 更新文件列表
+      const fileList = document.getElementById('file-list');
+      
+      if (!message.files || message.files.length === 0) {
+        fileList.innerHTML = `
+          <div class="empty-list">
+            <div class="empty-message">当前目录下未发现txt，epub书籍</div>
+          </div>
+        `;
+        return;
+      }
+
+      fileList.innerHTML = message.files.map(file => {
+        const progress = file.progress || {};
+        const progressPercent = progress.currentLine ? 
+          Math.min(100, Math.round((progress.currentLine / Math.max(1, progress.totalLines - 1)) * 100)) : 0;
+          
+        return `
+          <div class="file-item">
+            <div class="file-info">
+              <div class="file-name">${file.name}</div>
+              <div class="file-progress">
+                ${progress.currentLine ? `已读进度：${progressPercent}%` : '未开始阅读'}
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${progressPercent}%"></div>
+              </div>
+              <div class="file-actions">
+                ${progress.currentLine ? 
+                  `<button class="btn-primary btn-small" onclick="continueReading('${file.path}', ${progress.currentLine})">继续阅读</button>` : 
+                  ''
+                }
+                <button class="btn-secondary btn-small" onclick="startReading('${file.path}')">
+                  ${progress.currentLine ? '重新开始' : '开始阅读'}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 更新设置
+    function updateSettings(settings) {
+      document.getElementById('lines-per-page').value = settings.linesPerPage || 1;
+    }
 
     // 处理目录选择
     document.getElementById('select-directory').addEventListener('click', () => {
@@ -85,41 +370,30 @@
       });
     });
 
-    // 处理文件点击
-    document.getElementById('file-list').addEventListener('click', (e) => {
-      if (e.target.classList.contains('file-item')) {
-        vscode.postMessage({
-          command: 'selectFile',
-          file: e.target.dataset.path
-        });
-      }
-    });
-
-    // 处理来自扩展的消息
-    window.addEventListener('message', event => {
-      const message = event.data;
-      switch (message.command) {
-        case 'updateFileList':
-          updateFileList(message.files);
-          break;
-        case 'updateSettings':
-          updateSettings(message.settings);
-          break;
-      }
-    });
-
-    function updateFileList(files) {
-      const fileList = document.getElementById('file-list');
-      fileList.innerHTML = files.map(file => `
-        <div class="file-item" data-path="${file.path}">
-          ${file.name}
-        </div>
-      `).join('');
+    // 继续阅读
+    function continueReading(filePath, line) {
+      vscode.postMessage({
+        command: 'selectFile',
+        file: filePath,
+        startLine: line
+      });
     }
 
-    function updateSettings(settings) {
-      document.getElementById('lines-per-page').value = settings.linesPerPage || 1;
+    // 开始阅读
+    function startReading(filePath) {
+      vscode.postMessage({
+        command: 'selectFile',
+        file: filePath,
+        startLine: 0
+      });
     }
+
+    // 监听系统主题变化
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      const isDarkMode = e.matches;
+      // 可以在这里添加主题切换时的其他逻辑
+      console.log('Theme changed to:', isDarkMode ? 'dark' : 'light');
+    });
   </script>
 </body>
 </html>
