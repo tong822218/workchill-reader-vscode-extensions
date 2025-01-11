@@ -8,7 +8,7 @@
 ![阅读界面](images/reading.png)
 
 ### 阅读界面(每页读三行)
-![阅读界面](images/reading.png)
+![阅读界面](images/reading2.png)
 
 ### 设置界面
 ![设置界面](images/settings.png)
@@ -37,9 +37,8 @@
 3. 在设置面板中选择要阅读的书籍
    - 点击"开始阅读"从头开始
    - 点击"继续阅读"从上次位置继续
-4. 使用 Page Up/Page Down 键进行翻页
+4. 随便在编辑器中选中一行，按 Page Up/Page Down 键进行翻页阅读
 5. 使用 End 键停止阅读
-
 
 
 ## 命令说明
