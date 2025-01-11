@@ -5,13 +5,13 @@
 ## 效果预览
 
 ### 阅读界面(每页读一行)
-![阅读界面](images/reading.png)
+![阅读界面](https://github.com/user-attachments/assets/f3a2db4c-c4d2-48dc-a006-40811277c2a0)
 
 ### 阅读界面(每页读三行)
-![阅读界面](images/reading2.png)
+![阅读界面](https://github.com/user-attachments/assets/3287b1c7-25dc-4de8-ac0e-56eb9101887d)
 
 ### 设置界面
-![设置界面](images/settings.png)
+![设置界面](https://github.com/user-attachments/assets/1ed4cefc-70db-4671-8cb5-eea8211d957b)
 
 
 ## 功能特性
@@ -72,8 +72,8 @@
 
 ## 问题反馈
 
-如果你在使用过程中遇到任何问题，或者有功能建议，欢迎在 GitHub 仓库提交 Issue：
-[https://github.com/tong822218/workchill-reader-vscode-extensions](https://github.com/tong822218/workchill-reader-vscode-extensions)
+weixin: tong822527
+email: 327637616@qq.com
 
 ## License
 

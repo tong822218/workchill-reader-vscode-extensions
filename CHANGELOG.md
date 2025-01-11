@@ -1,9 +1,11 @@
 # Change Log
 
-All notable changes to the "workchill-vscode-extensions" extension will be documented in this file.
-
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+### 0.0.1
+- 初始版本发布
+- 支持基本的 txt、epub 阅读功能
+- 支持阅读进度保存
+- 支持自定义字体大小和颜色
 
 ## [Unreleased]
 
-- Initial release
+- 优化使用体验
