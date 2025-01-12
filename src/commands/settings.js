@@ -4,6 +4,7 @@ const fs = require('fs');
 const { getExtensionContext } = require('../utils/extensionState');
 const { handleWebviewMessage, updateFileList } = require('../webview/handler');
 const { getBookFolderPath, getConfig } = require('../config');
+const { updateConfig } = require('../config');
 
 function registerSettingsCommands() {
   const commands = [];

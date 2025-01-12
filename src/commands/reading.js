@@ -1,4 +1,7 @@
 const vscode = require('vscode');
+const path = require('path');
+const fs = require('fs');
+const { handleEpubFile } = require('../services/epubReader');
 const bookReader = require('../services/bookReader');
 
 function registerReadingCommands() {

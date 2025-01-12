@@ -2,7 +2,7 @@
   "name": "workchill-reader",
   "displayName": "workchill-reader",
   "description": "一个用来上班摸鱼的vscode阅读插件，支持txt,epub本地小说阅读，可以自动保存阅读进度，支持切换上下页.",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "publisher": "luxiaofeng",
   "license": "MIT",
   "engines": {
@@ -11,9 +11,23 @@
   "categories": [
     "Other"
   ],
-  "icon":"logo.png",
-  "main": "./extension.js",
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "icon": "logo.png",
   "repository": "https://github.com/tong822218/workchill-reader-vscode-extensions",
+  "scripts": {
+    "compile": "npm run check-types && node esbuild.js",
+    "check-types": "tsc --noEmit",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "vscode:prepublish": "npm run package",
+    "package": "npm run clear && node esbuild.js --production",
+    "lint": "eslint . --config eslint.config.js",
+    "pretest": "pnpm run lint",
+    "test": "vscode-test",
+    "clear": "if exist dist rmdir /s /q dist"
+  },
   "contributes": {
     "commands": [
       {
@@ -87,22 +101,10 @@
       }
     }
   },
-  "scripts": {
-    "compile": "npm run check-types && node esbuild.js",
-    "check-types": "tsc --noEmit",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "vscode:prepublish": "npm run package",
-    "package": "node esbuild.js --production",
-    "lint": "eslint . --config eslint.config.js",
-    "pretest": "pnpm run lint",
-    "test": "vscode-test"
-  },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "@types/vscode": "^1.96.0",
+    "@types/vscode": "^1.90.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "esbuild": "^0.24.2",
@@ -113,5 +115,12 @@
     "cheerio": "^1.0.0",
     "epub2": "^3.0.2",
     "epubjs": "^0.3.93"
-  }
+  },
+  "files": [
+    "dist/**/*",
+    "src/webview/**/*",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ]
 }

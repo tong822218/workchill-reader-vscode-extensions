@@ -400,6 +400,7 @@
         const progress = file.progress || {};
         const progressPercent = progress.currentLine ? 
           Math.min(100, Math.round((progress.currentLine / Math.max(1, progress.totalLines - 1)) * 100)) : 0;
+          const filtPath = JSON.stringify(file.path).replace(/\"/g,"'");
           
         return `
           <div class="file-item">
@@ -413,10 +414,10 @@
               </div>
               <div class="file-actions">
                 ${progress.currentLine ? 
-                  `<button class="btn-primary btn-small" onclick="continueReading('${file.path}', ${progress.currentLine})">继续阅读</button>` : 
+                  `<button class="btn-primary btn-small" onclick="continueReading('${filtPath}', ${progress.currentLine})">继续阅读</button>` : 
                   ''
                 }
-                <button class="btn-secondary btn-small" onclick="startReading('${file.path}')">
+                <button class="btn-secondary btn-small" onclick="startReading(${filtPath})">
                   ${progress.currentLine ? '重新开始' : '开始阅读'}
                 </button>
               </div>

@@ -1,4 +1,3 @@
-const vscode = require('vscode');
 const { registerCommands } = require('./src/commands');
 const { initializeConfig } = require('./src/config');
 const { setExtensionContext } = require('./src/utils/extensionState');

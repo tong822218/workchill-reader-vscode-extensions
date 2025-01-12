@@ -43,7 +43,7 @@ function updateFileList(panel) {
     });
     return;
   }
-
+  
   const progress = getReadingProgress();
   const files = fs.readdirSync(bookFolderPath)
     .filter(file => ['.txt', '.epub'].includes(path.extname(file).toLowerCase()))
@@ -79,6 +79,8 @@ async function handleSelectFile(message, panel) {
   if (ext === '.epub') {
     await handleEpubFile(message.file);
   } else {
+    console.log(message.file);
+    
     bookReader.readTxt(message.file, message.startLine || 0);
   }
   panel.dispose();

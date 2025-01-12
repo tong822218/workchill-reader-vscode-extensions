@@ -1,4 +1,3 @@
-const vscode = require('vscode');
 const { registerReadingCommands } = require('./reading');
 const { registerSettingsCommands } = require('./settings');
 
