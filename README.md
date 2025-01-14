@@ -28,8 +28,12 @@
 
 ## 使用说明
 
+直接在代码编辑区域鼠标右键，选择 workchill show settings 打开设置页面
+![1736815976806](https://github.com/user-attachments/assets/cd38789a-7671-4e64-b1f2-d5db2ab8ded9)
+
+或者通过命令的方式：
 1. 按 `Ctrl + Shift + P` (mac 是 `Cmd + Shift + P`) 打开命令面板
-2. 输入 `workchill show settings` 打开设置面板
+2. 输入 `workchill show settings` 打开设置页面
    - 点击选择目录，选择一个书籍目录（默认插件根目录）
    - 可以设置每页显示行数
    - 可以设置阅读字体大小

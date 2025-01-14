@@ -2,7 +2,7 @@
   "name": "workchill-reader",
   "displayName": "workchill-reader",
   "description": "一个用来上班摸鱼的vscode阅读插件，支持txt,epub本地小说阅读，可以自动保存阅读进度，支持切换上下页.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "luxiaofeng",
   "license": "MIT",
   "engines": {
@@ -55,9 +55,18 @@
         "title": "workchill stop reading"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "workchill.showSettings",
+          "when": "editorTextFocus",
+          "group": "workchill@1"
+        }
+      ]
+    },
     "keybindings": [
       {
-        "command": "workchill.stopReading",
+        "command": "workchill.stopReading", 
         "key": "end",
         "mac": "end",
         "when": "editorTextFocus"
