@@ -414,7 +414,7 @@
               </div>
               <div class="file-actions">
                 ${progress.currentLine ? 
-                  `<button class="btn-primary btn-small" onclick="continueReading('${filtPath}', ${progress.currentLine})">继续阅读</button>` : 
+                  `<button class="btn-primary btn-small" onclick="continueReading(${filtPath}, ${progress.currentLine})">继续阅读</button>` : 
                   ''
                 }
                 <button class="btn-secondary btn-small" onclick="startReading(${filtPath})">
